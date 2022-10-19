@@ -7,37 +7,37 @@ class Queue {
     int buffer[N];
     int start  = -1, end = -1;
 public:
-    Queue() = default;
-    bool IsEmpty() const {
-        return (start == end && end == -1);
-    }
-    
-    bool IsFull() {
-        return ((end + 1) % N == start);
-    }
+	Queue() = default;
+	bool IsEmpty() const {
+		return (start == end && end == -1);
+	}
+
+	bool IsFull() {
+		return ((end + 1) % N == start);
+	}
 	
 	int counter() const {
 		if (IsEmpty()) 
 			return 0;
 		return (end >= start) ? (end - start + 1) : (N - (start - end - 1));
 	}
-	
+
 	int front() const {
 		if (IsEmpty())
 			exit(1);
 		return buffer[start];
 	}
-	
+
 	int back() const {
 		if (IsEmpty())
 			exit(1);
 		return buffer[end];
 	}
-	
+
 	void reset() {
 		 start = end = -1;
 	}
-	
+
 	bool push(int element) {
 		if (IsFull())
 			return false;
@@ -48,7 +48,7 @@ public:
 		buffer[end] = element;
 		return true;		
 	}
-	
+
 	bool pop() {
 		if (IsEmpty())
 			return false;
@@ -58,7 +58,7 @@ public:
 			start = (start + 1) % N;
 		return true;		
 	}
-	
+
 	void print() const {
 		if (IsEmpty())
 			cout << "The queue is empty \n";
