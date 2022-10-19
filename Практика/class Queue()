@@ -1,25 +1,31 @@
 #include <iostream>
 #include <stdio.h>
-#define N 5
+#define size 5
 using namespace std;
 
 class Queue {
-    int buffer[N];
+    int buffer[size];
     int start  = -1, end = -1;
 public:
+// конструктор копирования
+// оператор копирующего присваивания
 	Queue() = default;
+	~Queue() {
+		delete [] buffer;
+	}
+	
 	bool IsEmpty() const {
 		return (start == end && end == -1);
 	}
 
 	bool IsFull() {
-		return ((end + 1) % N == start);
+		return ((end + 1) % size == start);
 	}
 	
 	int counter() const {
 		if (IsEmpty()) 
 			return 0;
-		return (end >= start) ? (end - start + 1) : (N - (start - end - 1));
+		return (end >= start) ? (end - start + 1) : (size - (start - end - 1));
 	}
 
 	int front() const {
@@ -39,12 +45,25 @@ public:
 	}
 
 	bool push(int element) {
-		if (IsFull())
-			return false;
 		if (IsEmpty()) 
 			start = end = 0;
-		else 
-			end = (end + 1) % N;			
+		else {
+			if (IsFull()) {
+				int * new_buffer = new buffer[size * 2];
+				int i = start, j = 0;
+				while (i != end) {
+					new_buffer[j++] = buffer[i];
+					i = (i + 1) % size;					
+				}
+				new_buffer[j] = buffer[i];
+				start = 0;
+				end = j;
+				size *= 2;
+				delete [] buffer;
+				buffer = new_buffer;
+			}			
+			end = (end + 1) % size;
+		}
 		buffer[end] = element;
 		return true;		
 	}
@@ -55,7 +74,7 @@ public:
 		if (start == end) 
 			reset();
 		else 
-			start = (start + 1) % N;
+			start = (start + 1) % size;
 		return true;		
 	}
 
@@ -69,7 +88,7 @@ public:
 				int i = start;
 				while (i != end) {
 					cout << buffer[i] << "->";
-					i = (i + 1) % N;
+					i = (i + 1) % size;
 				}
 				cout << buffer[i] << endl;
 			}
