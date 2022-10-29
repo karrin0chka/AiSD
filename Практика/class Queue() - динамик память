@@ -2,8 +2,7 @@
 #include <cstdlib>
 using namespace std;
 
-class Queue
-{
+class Queue {
     int start = -1;
     int end = -1;
     int size = 5;
@@ -14,12 +13,25 @@ class Queue
     }
 
 public:
-    // Конструктор копирования.
-    // Оператор копирующего присваивания.
     Queue() = default;
+    
+    Queue(const Queue &obj) {
+        size = obj.size;
+        int i = obj.start, j = 0;
+        while (i != obj.end) {
+            buffer[j] = obj.buffer[i];
+            i = (i + 1) % size;
+            j++;
+        }
+        start = 0;
+        end = j;
+        buffer[end] = obj.buffer[i];
+    }
+    
     ~Queue() {
         delete[] buffer;
     }
+    
     bool IsEmpty() const {
         return (start == end && end == -1);
     }
@@ -29,16 +41,19 @@ public:
             return 0;
         return (end >= start) ? (end - start + 1) : (size - (start - end - 1));
     }
+    
     int front() const {
         if (IsEmpty())
             exit(1);
         return buffer[start];
     }
+    
     int back() const {
         if (IsEmpty())
             exit(1);
         return buffer[end];
     }
+    
     void reset() {
         start = end = -1;
     }
@@ -78,6 +93,22 @@ public:
         return true;
     }
 
+    const Queue operator=(const Queue &obj) {
+        if (&buffer != &obj.buffer) {
+            size = obj.size;
+            int i = obj.start, j = 0;
+            while (i != obj.end) {
+                buffer[j] = obj.buffer[i];
+                i = (i + 1) % size;
+                j++;
+            }
+            start = 0;
+            end = j;
+            buffer[end] = obj.buffer[i];
+        }
+        return *this;
+    }
+    
     void print() const {
         if (IsEmpty())
             cout << "The qeueu is empty \n";
