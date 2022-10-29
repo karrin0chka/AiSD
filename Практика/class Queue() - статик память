@@ -95,5 +95,5 @@ int main()
     q1.push(6);
     q1.print();
     cout << q1.counter();
-    return 0;
+    return 0; 
 }
