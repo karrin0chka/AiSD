@@ -20,7 +20,7 @@ public:
 	
     int counter() const {
         if (IsEmpty()) 
-			return 0;
+				return 0;
         return ( end >= start) ? (end - start + 1) : (N - (start - end - 1));
     }
 	
