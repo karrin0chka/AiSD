@@ -12,12 +12,13 @@ class Dequeue {
     bool IsFull() const {
         return  (end + 1)%size == start ;
     } 
-    bool OneElement() const{
+    
+    bool OneElement() const {
         return (start == end && start != -1);
     }
     
 public:
-    Dequeue()= default;
+    Dequeue() = default;
     ~Dequeue() {
         delete [] buffer;
     }
@@ -38,14 +39,17 @@ public:
     bool IsEmpty() const {
         return (start == end && start == -1);
     }
+    
     int get_count() const {
         return (end >= start) ? (end-start+1) : size - (start - end - 1);                                               
     }
+    
     int get_front() const {
         if(IsEmpty()) 
             exit(1);
         return buffer[start];
     }
+    
     int get_back() const {
         if(IsEmpty())
             exit(1);
