@@ -10,7 +10,7 @@ class Dequeue {
     int * buffer = new int[size];
     
     bool IsFull() const {
-        return  (end + 1)%size == start ;
+        return  (end + 1) % size == start ;
     } 
     
     bool OneElement() const {
@@ -23,17 +23,10 @@ public:
         delete [] buffer;
     }
 
-    Dequeue(const Dequeue & obj) {
-        size = obj.size;
+    Dequeue(const Dequeue & obj) : start(obj.start), end(obj.end), size(obj.size), buffer(new int[size]) {        
         int i = obj.start, j = 0;
-        while (i != obj.end) {
-            buffer[j] = obj.buffer[i];
-            i = (i + 1) % size;
-            j++;
-        }
-        start = 0;
-        end = j;
-        buffer[end] = obj.buffer[i];
+        for(int i = 0; i < size; i++) 
+            buffer[i] = obj.buffer[i];       
     }
     
     bool IsEmpty() const {
@@ -41,7 +34,7 @@ public:
     }
     
     int get_count() const {
-        return (end >= start) ? (end-start+1) : size - (start - end - 1);                                               
+        return (end >= start) ? (end - start + 1) : size - (start - end - 1);                                               
     }
     
     int get_front() const {
@@ -61,7 +54,7 @@ public:
         int i = start;
         while(i != end) {
             cout << buffer[i] << " -> ";
-            i = (i + 1)%size;
+            i = (i + 1)  %size;
         }
         cout << buffer[i] << endl;       
     }
@@ -96,7 +89,7 @@ public:
                 while(j != end) {
                     new_buffer[i] = buffer[j];
                     i++;
-                    j = (j + 1)%size;
+                    j = (j + 1) % size;
                 }
                 new_buffer[i] = buffer[j];
                 delete [] buffer;
@@ -130,13 +123,13 @@ public:
                 end = i;
                 size *= 2;
             }
-            end = (end + 1)%size;
+            end = (end + 1) % size;
         }
         buffer[end] = element;
         return true;
     }
 
-    const Dequeue operator=(const Dequeue &obj) {
+    const Dequeue & operator=(const Dequeue &obj) { // копирующее присвоение
         if (&buffer != &obj.buffer) {
             size = obj.size;
             int i = obj.start, j = 0;
