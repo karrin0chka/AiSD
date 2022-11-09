@@ -1,6 +1,6 @@
 // leetcode
 #include <iostream>
-#include <std:stack>
+#include <stack>
 using namespace std;
 /*
   (   0
@@ -20,9 +20,10 @@ using namespace std;
   -(4+--(3-2)) => (-1)*(4+(-1)*(-1)*(3-2)) => -1 4 -1 -1 * 3 2 - * + *
 */
 
-double getResult(String & str) {
+double getResult(string & str) {
   stack <double> st;
-  double temp = 0, a = 1;
+  double temp = 0, a = 10;
+  double first, second;
   bool point = false;
   for (int i = 0; i < str.size(); i++) {
   	if (str[i] >= '0' && str[i] <= '9') {
@@ -36,30 +37,46 @@ double getResult(String & str) {
 				temp = temp + 1.0 * (str[i] - '0') / a;
 				a *= 10;
 			}
-			else {
+			else 
 				temp = temp * 10 + str[i] - '0';
-				a = 1;
-			}
 			i++;
 		}
 		st.push(temp);
+		temp = 0;
+		point = false;
+		a = 10;
 	}
 	else {
-		scitch (str[i]) {
+		first = st.top();
+		st.pop();
+		second = st.top();
+		st.pop();
+		switch (str[i]) {
 			case '+' :
+				st.push(first + second);
 				break;
 			case '-' :
+				st.push(first - second);
 				break;
 			case '*' :
+				st.push(first * second);
 				break;
 			case '/' :
+				st.push(second / first);
 				break;
 			case '~' :
+				st.push(second);
+				st.push(-first);
 				break;	
+			default:
 		}	
+		i++;  // чтобы перейти пробел
   	}  
+	return st.top();
 }
 
 int main() {  
+	string str = "21.3 ~ 1 + 2";
+	cout << str;
   return 0;
 }
