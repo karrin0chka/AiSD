@@ -68,12 +68,12 @@ double getResult(string & str) {
 				st.push(second);
 				st.push(-first);
 				break;	
-			default:
 		}	
 		i++;  // чтобы перейти пробел
   	}  
+  }
 	return st.top();
-}
+};
 
 int main() {  
 	string str = "21.3 ~ 1 + 2";
